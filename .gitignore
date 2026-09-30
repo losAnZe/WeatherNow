@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.venv/
+.uv-cache/
+__pycache__/
+*.py[cod]
+tsconfig.tsbuildinfo
+.env
+.env.*
+!.env.example

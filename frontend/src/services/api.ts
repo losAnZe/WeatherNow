@@ -1,0 +1,5 @@
+// Production builds use the explicitly configured API URL. Local builds keep
+// the convenient localhost default; an empty production URL disables API calls.
+const API=import.meta.env.VITE_API_URL||(import.meta.env.DEV?'http://localhost:8000/api':'');
+export async function getHealth(){try{const response=await fetch(`${API}/health`,{signal:AbortSignal.timeout(1800)});if(!response.ok)throw new Error();return await response.json();}catch{return null;}}
+export async function runDemoInference(){if(!API)throw new Error('Set VITE_API_URL to the deployed WeatherNow API to run server inference. The dashboard remains available with bundled simulated data.');const response=await fetch(`${API}/inference/run`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({atmospheric_grid:[{iwv:42,cape:2100,cin:35,convergence:78,shear:24,ctt_cooling:8,rainfall:62}],terrain_grid:[{elevation:860,slope:22,drainage:.68}]})});if(!response.ok)throw new Error('Inference API unavailable');return response.json();}
